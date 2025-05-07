@@ -458,7 +458,13 @@ void BKE_modifier_set_error(const Object *ob, ModifierData *md, const char *_for
   }
 #endif
 
-  CLOG_WARN(&LOG, "Object: \"%s\", Modifier: \"%s\", %s", ob->id.name + 2, md->name, md->error);
+  /* Only log as warning if it's not the point cache mismatch message */
+  if (strstr(md->error, "Number of points in cache does not match mesh") != nullptr) {
+    CLOG_INFO(&LOG, 0, "Object: \"%s\", Modifier: \"%s\", %s", ob->id.name + 2, md->name, md->error);
+  }
+  else {
+    CLOG_WARN(&LOG, "Object: \"%s\", Modifier: \"%s\", %s", ob->id.name + 2, md->name, md->error);
+  }
 }
 
 void BKE_modifier_set_warning(const Object *ob, ModifierData *md, const char *_format, ...)
