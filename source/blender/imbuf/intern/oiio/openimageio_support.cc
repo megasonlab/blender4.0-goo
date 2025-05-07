@@ -305,6 +305,7 @@ bool imb_oiio_write(const WriteContext &ctx, const char *filepath, const ImageSp
     float weights[4]{};
     IMB_colormanagement_get_luminance_coefficients(weights);
     ImageBufAlgo::channel_sum(final_buf, orig_buf, {weights, orig_buf.nchannels()});
+    // ImageBufAlgo::channel_sum(final_buf, orig_buf, {weights, static_cast<size_t>(orig_buf.nchannels())});
   }
   else {
     /* If we are moving from an 1-channel format to n-channel we need to
